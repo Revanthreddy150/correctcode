@@ -369,7 +369,7 @@
                             }
 
                             if (globalUserLat && globalUserLng && !document.getElementById('geo-location-display').innerText.includes("Locking")) {
-                                const subUserIframeUrl = `https://revanthreddy150.github.io/test/?uid=${data.uid}&name=${encodeURIComponent(data.name)}&email=${data.email}&phone=${encodeURIComponent(data.phone || '')}&aadharStatus=${currentStatus}&lat=${globalUserLat}&lng=${globalUserLng}&savedAddress=${encodeURIComponent(data.deliveryAddress || '')}`;
+                                const subUserIframeUrl = `https://revanthreddy150.github.io/correctcode/subuser?uid=${data.uid}&name=${encodeURIComponent(data.name)}&email=${data.email}&phone=${encodeURIComponent(data.phone || '')}&aadharStatus=${currentStatus}&lat=${globalUserLat}&lng=${globalUserLng}&savedAddress=${encodeURIComponent(data.deliveryAddress || '')}`;
                                 if (document.getElementById('sub-user-frame').src !== subUserIframeUrl) {
                                     document.getElementById('sub-user-frame').src = subUserIframeUrl;
                                 }
