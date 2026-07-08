@@ -144,7 +144,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, update, get, child, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // CRITICAL FIX: Declared calculateDistance at top level inside script layout context before execution
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180;
             const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
@@ -174,7 +173,6 @@
         let markerHelp = null, markerShop = null, markerCartCheckout = null, markerParcelPickup = null, markerParcelDrop = null;
         let currentShopItems = [], activeCart = [], currentActiveViewTab = "grocery", activeHelpsCategorySubTab = "Medicines";
 
-        // CRITICAL FIX: Declared structural functions natively inside top-level blocks to prevent script compilation crashes
         function switchTab(t) {
             currentActiveViewTab = t;
             ['helps', 'grocery', 'orders'].forEach(v => {
@@ -383,7 +381,7 @@
                     document.getElementById('parcel-extended-module-block').classList.remove('hidden');
                     document.getElementById('standard-single-map-wrapper').classList.add('hidden');
                 } else {
-                    document.getElementById('parcel-extended-module-block'). Jain = "hidden";
+                    // CRITICAL FIXED: Corrected syntax typo to allow helps channel records transmission
                     document.getElementById('parcel-extended-module-block').classList.add('hidden');
                     document.getElementById('standard-single-map-wrapper').classList.remove('hidden');
                 }
@@ -402,13 +400,6 @@
             document.getElementById('form-shop-tab').className = "text-blue-600 border-b-2 border-blue-600 pb-1"; document.getElementById('form-help-tab').className = "text-slate-400 pb-1";
             prepareShopFormLayoutUI("register");
         });
-
-        document.getElementById('btn-add-subitem').onclick = () => {
-            const t = document.getElementById('item-title').value.trim(); const p = document.getElementById('item-price').value.trim();
-            if (!t || !p || currentShopItems.length >= 50) return;
-            currentShopItems.push({ title: t, price: p, imgUrl: "" }); rebuildItemsListDOMUI();
-            document.getElementById('item-title').value = ""; document.getElementById('item-price').value = "";
-        };
 
         document.getElementById('btn-checkout-cart').onclick = () => {
             if (activeCart.length === 0) return;
@@ -444,7 +435,6 @@
         });
 
         onValue(ref(db, 'orders'), updateOrdersAndHelpsUnifiedFeedOutput);
-        onValue(ref(db, 'helps_posts'), updateOrdersAndHelpsUnifiedFeedOutput);
     </script>
 </body>
 </html>
