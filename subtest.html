@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        /* Smooth responsive layout adaptations for mapping canvases */
+        /* Smooth responsive mobile layout adaptations for map overlays */
         .map-fullscreen-active {
             position: fixed !important;
             top: 0 !important;
@@ -18,7 +18,14 @@
             z-index: 10000 !important;
             border-radius: 0px !important;
         }
-        /* Custom scrollbar to keep panels looking clean on any mobile screen */
+        /* Scannable overlay notification animations */
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -26,13 +33,13 @@
 </head>
 <body class="bg-slate-50 text-slate-800 p-2 md:p-4 font-sans min-h-screen relative pb-28 select-none">
 
-    <div class="grid grid-cols-3 gap-1 md:flex md:items-center md:space-x-2 mb-4 border-b pb-3 border-slate-100 bg-white p-1 rounded-2xl shadow-xs">
+    <div class="grid grid-cols-3 gap-1 md:flex md:items-center md:space-x-2 mb-4 border-b pb-3 border-slate-100 bg-white p-1 rounded-2xl shadow-sm">
         <button id="tab-grocery-btn" class="py-2.5 px-2 md:px-5 rounded-xl md:rounded-full text-[11px] md:text-xs font-bold tracking-wide transition bg-blue-600 text-white shadow-sm cursor-pointer text-center truncate">🏪 Food/Store</button>
         <button id="tab-helps-btn" class="py-2.5 px-2 md:px-5 rounded-xl md:rounded-full text-[11px] md:text-xs font-bold tracking-wide transition bg-slate-50 text-slate-600 hover:bg-slate-100 cursor-pointer text-center truncate">🤝 Helps Feed</button>
         <button id="tab-orders-btn" class="py-2.5 px-2 md:px-5 rounded-xl md:rounded-full text-[11px] md:text-xs font-bold tracking-wide transition bg-slate-50 text-slate-600 hover:bg-slate-100 cursor-pointer text-center truncate">📋 My Orders</button>
     </div>
 
-    <div id="helps-subtabs-header" class="hidden grid grid-cols-3 gap-1.5 bg-white p-1.5 rounded-2xl border border-slate-100 mb-4 text-center text-[10px] md:text-xs font-bold text-slate-500 shadow-xs">
+    <div id="helps-subtabs-header" class="hidden grid grid-cols-3 gap-1.5 bg-white p-1.5 rounded-2xl border border-slate-100 mb-4 text-center text-[10px] md:text-xs font-bold text-slate-500 shadow-sm">
         <div id="subtab-med-btn" class="bg-blue-50 text-blue-700 border border-blue-100 p-2 rounded-xl cursor-pointer transition">
             <p class="text-base mb-0.5">💊</p>
             <p class="uppercase font-black tracking-wide text-[9px] md:text-xs">Medicines</p>
@@ -51,9 +58,9 @@
     <div id="view-helps" class="hidden space-y-4"><div id="helps-feed-output" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div></div>
     <div id="view-orders" class="hidden space-y-4"><div id="orders-feed-output" class="space-y-3 max-w-2xl mx-auto"></div></div>
 
-    <div id="success-tick-overlay" class="hidden fixed inset-0 bg-slate-900/70 z-[20000] flex flex-col items-center justify-center">
+    <div id="success-tick-overlay" class="hidden fixed inset-0 bg-slate-900/70 z-[20000] flex flex-col items-center justify-center animate-fade-in">
         <div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center max-w-xs mx-4">
-            <div class="w-14 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl font-black mb-4">✓</div>
+            <div class="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl font-black mb-4">✓</div>
             <h4 class="text-lg font-black text-slate-900">Request Confirmed!</h4>
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">Task logged successfully. Finding available system agents within range nodes...</p>
         </div>
@@ -92,7 +99,7 @@
                 <div class="space-y-2 text-xs pt-1">
                     <div><label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Confirm Phone Number</label><input type="tel" id="cart-phone-input" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-sm focus:outline-blue-500 text-slate-800"></div>
                     <div><label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Delivery Address Destination</label><textarea id="cart-delivery-address-input" rows="2" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl font-medium focus:outline-blue-500 text-slate-700 placeholder-slate-300" placeholder="Enter explicit block/flat delivery destination address..."></textarea></div>
-                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase block">Pinpoint Delivery Spot on Map (Tap map to lock position)</label><div id="cart-checkout-map" class="h-28 w-full bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative"></div><input type="text" id="cart-selected-coords" readonly class="w-full p-1.5 bg-slate-100 text-[9px] font-mono text-slate-500 rounded-lg text-center" placeholder="Awaiting manual pin verification link..."></div>
+                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase block">Pinpoint Delivery Spot on Map</label><div id="cart-checkout-map" class="h-28 w-full bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative"></div><input type="text" id="cart-selected-coords" readonly class="w-full p-1.5 bg-slate-100 text-[9px] font-mono text-slate-500 rounded-lg text-center" placeholder="Click map to lock coordinates"></div>
                 </div>
             </div>
             <div class="border-t pt-3 space-y-2 bg-white shrink-0">
@@ -134,7 +141,7 @@
                 <div class="space-y-1.5" id="standard-single-map-wrapper">
                     <label class="text-[10px] font-bold text-slate-400 block uppercase">Pin Destination Location on Map</label>
                     <div class="h-36 bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative" id="map-help-box"></div>
-                    <input type="text" id="help-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg">
+                    <input type="text" id="help-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg text-center">
                 </div>
                 <textarea id="help-desc" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs h-16" placeholder="Provide extra descriptive details..."></textarea>
                 <button id="btn-submit-help" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-3 rounded-xl transition shadow cursor-pointer">Transmit Request Live</button>
@@ -143,10 +150,10 @@
             <div id="form-shop-block" class="hidden space-y-3">
                 <h4 id="action-shop-title-label" class="text-xs font-black text-slate-800 uppercase tracking-wider">New Store Registration Parameters</h4>
                 <input type="text" id="shop-name" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" placeholder="Restaurant or Shop Title Name">
-                <div id="shop-map-fields-wrapper" class="space-y-2"><div class="h-40 bg-slate-100 rounded-xl overflow-hidden relative" id="map-shop-box"></div><input type="text" id="shop-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg"></div>
+                <div id="shop-map-fields-wrapper" class="space-y-2"><div class="h-36 w-full bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative" id="map-shop-box"></div><input type="text" id="shop-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg text-center"></div>
                 <div class="border p-3 rounded-xl bg-slate-50 space-y-2">
                     <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block border-b pb-1">Manage Menu Directory Items (Max 50)</span>
-                    <div class="flex gap-2"><input type="text" id="item-title" class="flex-1 p-2 bg-white border rounded-lg text-xs" placeholder="Item Name"><input type="text" id="item-price" class="w-20 p-2 bg-white border rounded-lg text-xs text-center" placeholder="₹180"><button id="btn-add-subitem" class="bg-slate-800 text-white px-3 rounded-lg font-black text-sm cursor-pointer">+</button></div>
+                    <div class="flex gap-2"><input type="text" id="item-title" class="flex-1 p-2 bg-white border border-slate-200 rounded-lg text-xs" placeholder="Item Name"><input type="text" id="item-price" class="w-20 p-2 bg-white border border-slate-200 rounded-lg text-xs text-center" placeholder="₹180"><button id="btn-add-subitem" class="bg-slate-800 text-white px-3 rounded-lg font-black text-sm cursor-pointer">+</button></div>
                     <ul id="added-items-list" class="text-xs space-y-1 max-h-36 overflow-y-auto divide-y divide-slate-100 pt-1"></ul>
                 </div>
                 <button id="btn-submit-shop" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow">Submit Application for Review</button>
@@ -158,7 +165,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, update, get, child, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // 1. TOP-LEVEL CONFIGURATIONS & HOOKS DECLARATIONS
+        // Global Firebase Configuration parameters
         const firebaseConfig = {
             apiKey: "AIzaSyDGI7b17RRfpgctXIVIgPtyECtUBLEcMAU",
             authDomain: "skill-bc495.firebaseapp.com",
@@ -190,14 +197,14 @@
 
         const subTabsListMap = { 'Medicines': 'subtab-med-btn', 'Custom Help': 'subtab-work-btn', 'Parcel Express': 'subtab-parcel-btn' };
 
-        // 2. ROOT GEOLOCATION MATHEMATICAL MODULES
+        // 1. GEOLOCATION HAVERSINE RADIAL COMPILATION MODULES
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180;
             const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
             return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
         }
 
-        // 3. UI STATE MUTATION DOM GRAPH ENGINES
+        // 2. INTERFACE VIEWS MANAGER ROUTER
         function switchTab(t) {
             currentActiveViewTab = t;
             ['helps', 'grocery', 'orders'].forEach(v => {
@@ -213,11 +220,11 @@
             const mapWrapper = document.getElementById('shop-map-fields-wrapper'); const submitBtn = document.getElementById('btn-submit-shop');
             if(mode === "edit" && existingShopData) {
                 titleLabel.innerText = "✏ Edit Restaurant Menu Inventory"; nameInput.value = existingShopData.shopName; nameInput.disabled = true; mapWrapper.classList.add('hidden');
-                submitBtn.innerText = "Submit Inventory Modifications"; submitBtn.className = "w-full bg-indigo-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow shadow-indigo-600/20";
+                submitBtn.innerText = "Submit Inventory Modifications"; submitBtn.className = "w-full bg-indigo-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow";
                 currentShopItems = [...existingShopData.items]; rebuildItemsListDOMUI();
             } else {
                 titleLabel.innerText = "New Store Registration Parameters"; nameInput.value = ""; nameInput.disabled = false; mapWrapper.classList.remove('hidden');
-                submitBtn.innerText = "Submit Application for Review"; submitBtn.className = "w-full bg-emerald-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow shadow-emerald-600/20";
+                submitBtn.innerText = "Submit Application for Review"; submitBtn.className = "w-full bg-emerald-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow";
                 currentShopItems = []; document.getElementById('added-items-list').innerHTML = "";
             }
         }
@@ -247,7 +254,6 @@
                 if (!mapParcelPickup) {
                     mapParcelPickup = L.map('map-parcel-pickup-box').setView([centerLat, centerLng], 15); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapParcelPickup);
                     markerParcelPickup = L.marker([centerLat, centerLng], { draggable: true }).addTo(mapParcelPickup); document.getElementById('parcel-pickup-coords').value = `${centerLat}, ${centerLng}`;
-                    
                     mapParcelPickup.on('focus', () => document.getElementById('map-parcel-pickup-box').classList.add('map-fullscreen-active'));
                     mapParcelPickup.on('click', (e) => {
                         markerParcelPickup.setLatLng(e.latlng);
@@ -259,7 +265,6 @@
                 if (!mapParcelDrop) {
                     mapParcelDrop = L.map('map-parcel-drop-box').setView([centerLat, centerLng], 15); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapParcelDrop);
                     markerParcelDrop = L.marker([centerLat, centerLng], { draggable: true }).addTo(mapParcelDrop); document.getElementById('parcel-drop-coords').value = `${centerLat}, ${centerLng}`;
-                    
                     mapParcelDrop.on('focus', () => document.getElementById('map-parcel-drop-box').classList.add('map-fullscreen-active'));
                     mapParcelDrop.on('click', (e) => {
                         markerParcelDrop.setLatLng(e.latlng);
@@ -275,6 +280,17 @@
             const totalQty = activeCart.reduce((sum, item) => sum + item.qty, 0);
             const badge = document.getElementById('cart-floating-badge'); badge.innerText = totalQty;
             badge.className = totalQty > 0 ? "absolute -top-1 -right-1 bg-red-500 text-white font-black text-[10px] min-w-5 h-5 px-1 border-2 border-white rounded-full flex items-center justify-center scale-100 transition-all" : "scale-0 hidden";
+        }
+
+        function addItemToCartArray(title, price, originShopUid, originShopName) {
+            const numericPrice = parseInt(price.replace(/[^0-9]/g, '')) || 0;
+            const existing = activeCart.find(i => i.title === title && i.shopUid === originShopUid);
+            if (existing) { existing.qty++; } else { activeCart.push({ title, price: numericPrice, qty: 1, shopUid: originShopUid, shopName: originShopName }); }
+            updateFloatingCartBadgeStateCount();
+            
+            // Native Toast notification alerts user that item added safely
+            const alertTextStringNode = `"${title}" added to cart!`;
+            Toastify({ text: alertTextStringNode, duration: 3000, close: false, gravity: "top", position: "left", style: { background: "#1e293b", borderRadius: "10px", fontSize: "12px", fontWeight: "bold" } }).showToast();
         }
 
         function renderCartInterfaceView() {
@@ -312,7 +328,11 @@
             const grid = document.getElementById('modal-items-grid'); grid.innerHTML = "";
             shop.items.forEach((item) => {
                 const div = document.createElement('div'); div.className = "bg-slate-50 rounded-2xl p-3 border border-slate-100 flex flex-col justify-between space-y-2";
-                div.innerHTML = `<img src="${item.imgUrl || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300'}" class="h-24 w-full object-cover rounded-xl"><div class="flex justify-between items-center text-xs font-bold"><span class="truncate">${item.title}</span><span class="text-blue-600">₹${item.price}</span></div><button class="btn-add-to-cart bg-slate-900 text-white text-[10px] font-black py-1.5 rounded-xl uppercase tracking-wider cursor-pointer shadow-xs" data-shopuid="${shop.uid}" data-shopname="${shop.shopName}" data-title="${item.title}" data-price="${item.price}">Add to Basket</button>`;
+                
+                // FIXED CRITICAL MAPPER FALLBACK: Protects grid loops if item images contain empty string nodes
+                const verifiedImagePlaceholderSourceStr = item.imgUrl || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300';
+                
+                div.innerHTML = `<img src="${verifiedImagePlaceholderSourceStr}" class="h-24 w-full object-cover rounded-xl shadow-inner"><div class="flex justify-between items-center text-xs font-bold"><span class="truncate pr-1">${item.title}</span><span class="text-blue-600 shrink-0">₹${item.price}</span></div><button class="btn-add-to-cart bg-slate-900 hover:bg-slate-800 text-white text-[10px] font-black py-1.5 rounded-xl uppercase tracking-wider cursor-pointer shadow-xs active:scale-[0.98]" data-shopuid="${shop.uid}" data-shopname="${shop.shopName}" data-title="${item.title}" data-price="${item.price}">Add to Basket</button>`;
                 grid.appendChild(div);
             });
             document.querySelectorAll('.btn-add-to-cart').forEach(btn => { btn.onclick = (e) => addItemToCartArray(e.target.getAttribute('data-title'), e.target.getAttribute('data-price'), e.target.getAttribute('data-shopuid'), e.target.getAttribute('data-shopname')); });
@@ -409,7 +429,7 @@
             });
         }
 
-        // 4. FIXED SYSTEM LISTENERS BOUND AT THE ABSOLUTE BOTTOM OF COMPILATION BLOCKS
+        // 3. MASTER REGISTERED CLICK ATTACHMENT BINDERS HANDLERS (Safely organized at bottom level)
         document.getElementById('tab-grocery-btn').onclick = () => { switchTab('grocery'); document.getElementById('helps-subtabs-header').classList.add('hidden'); };
         document.getElementById('tab-helps-btn').onclick = () => { switchTab('helps'); document.getElementById('helps-subtabs-header').classList.remove('hidden'); };
         document.getElementById('tab-orders-btn').onclick = () => { switchTab('orders'); document.getElementById('helps-subtabs-header').classList.add('hidden'); };
@@ -423,6 +443,7 @@
             };
         });
 
+        // FIXED CRITICAL REPAIR: Unified Help request live dispatcher click handlers setup cleanly
         document.getElementById('btn-floating-action').onclick = () => {
             if (userAadharStatus !== "Verified") { alert(`Verification Pending. Account status state: ${userAadharStatus}`); return; }
             document.getElementById('action-modal-overlay').classList.remove('hidden');
@@ -436,7 +457,7 @@
             } else {
                 document.getElementById('action-tabs-row-header').classList.add('hidden');
                 document.getElementById('form-help-block').classList.remove('hidden'); document.getElementById('form-shop-block').classList.add('hidden');
-                document.getElementById('lbl-assistance-sub-type').innerText = `Service Category Node: ${activeHelpsCategorySubTab}`;
+                document.getElementById('lbl-assistance-sub-type').innerText = `Service: ${activeHelpsCategorySubTab}`;
                 
                 if(activeHelpsCategorySubTab === "Parcel Express") {
                     document.getElementById('parcel-extended-module-block').classList.remove('hidden');
