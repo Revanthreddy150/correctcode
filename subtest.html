@@ -60,10 +60,10 @@
     </div>
 
     <div id="shop-pending-overlay" class="hidden fixed inset-0 bg-slate-900/70 z-[20000] flex flex-col items-center justify-center">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center max-w-xs sm:max-w-sm mx-4 border border-slate-100">
-            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-xl mb-3">⏳</div>
-            <h4 class="text-lg font-black text-slate-900">Verification Pending</h4>
-            <p class="text-xs text-slate-600 mt-2 leading-relaxed font-medium">It will take up to <b>24 hours</b> to verify and approve your request. Please wait, our support agent will call and verify your credentials shortly.</p>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center max-w-xs sm:max-w-md mx-4 border border-slate-100">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-3xl mb-4">⏳</div>
+            <h4 class="text-xl font-black text-slate-900">Verification Request Received</h4>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed font-medium">It will take up to <b>24 hours</b> to verify and approve your shop. Please wait, our support agent will call and verify your credentials shortly.</p>
             <button onclick="document.getElementById('shop-pending-overlay').classList.add('hidden')" class="mt-4 w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-xl transition cursor-pointer">Understood</button>
         </div>
     </div>
@@ -117,8 +117,7 @@
                     <input type="text" id="help-fullname" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold" placeholder="Your Full Name">
                     <input type="tel" id="help-phone" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono" placeholder="Contact Mobile Number">
                 </div>
-
-                <div class="hidden bg-blue-50/30 p-3 rounded-2xl border border-blue-100 space-y-3" id="parcel-extended-module-block">
+                <div class="hidden bg-blue-50/50 p-3 rounded-2xl border border-blue-100 space-y-3" id="parcel-extended-module-block">
                     <input type="text" id="parcel-recipient-name" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold" placeholder="Recipient Full Name">
                     <input type="tel" id="parcel-recipient-phone" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono" placeholder="Recipient Contact Mobile Number">
                     <div>
@@ -132,24 +131,22 @@
                         <input type="text" id="parcel-drop-coords" readonly class="w-full bg-slate-100 p-2 font-mono text-[9px] rounded-lg mt-1 text-center">
                     </div>
                 </div>
-
                 <div class="space-y-1.5" id="standard-single-map-wrapper">
-                    <label class="text-[10px] font-bold text-slate-400 block uppercase">Pin Target Destination Point on Map</label>
+                    <label class="text-[10px] font-bold text-slate-400 block uppercase">Pin Destination Location on Map</label>
                     <div class="h-36 bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative" id="map-help-box"></div>
-                    <input type="text" id="help-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg text-center">
+                    <input type="text" id="help-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg">
                 </div>
-
-                <textarea id="help-desc" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs h-16 focus:outline-blue-500" placeholder="Provide extra descriptive details or instructions..."></textarea>
+                <textarea id="help-desc" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs h-16" placeholder="Provide extra descriptive details..."></textarea>
                 <button id="btn-submit-help" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-3 rounded-xl transition shadow cursor-pointer">Transmit Request Live</button>
             </div>
             
             <div id="form-shop-block" class="hidden space-y-3">
                 <h4 id="action-shop-title-label" class="text-xs font-black text-slate-800 uppercase tracking-wider">New Store Registration Parameters</h4>
                 <input type="text" id="shop-name" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" placeholder="Restaurant or Shop Title Name">
-                <div id="shop-map-fields-wrapper" class="space-y-2"><div class="h-36 w-full bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative" id="map-shop-box"></div><input type="text" id="shop-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg text-center"></div>
+                <div id="shop-map-fields-wrapper" class="space-y-2"><div class="h-40 bg-slate-100 rounded-xl overflow-hidden relative" id="map-shop-box"></div><input type="text" id="shop-coords" readonly class="w-full p-2 bg-slate-100 text-[10px] font-mono rounded-lg"></div>
                 <div class="border p-3 rounded-xl bg-slate-50 space-y-2">
                     <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block border-b pb-1">Manage Menu Directory Items (Max 50)</span>
-                    <div class="flex gap-2"><input type="text" id="item-title" class="flex-1 p-2 bg-white border border-slate-200 rounded-lg text-xs" placeholder="Item Name"><input type="text" id="item-price" class="w-20 p-2 bg-white border border-slate-200 rounded-lg text-xs text-center" placeholder="₹180"><button id="btn-add-subitem" class="bg-slate-800 text-white px-3 rounded-lg font-black text-sm cursor-pointer">+</button></div>
+                    <div class="flex gap-2"><input type="text" id="item-title" class="flex-1 p-2 bg-white border rounded-lg text-xs" placeholder="Item Name"><input type="text" id="item-price" class="w-20 p-2 bg-white border rounded-lg text-xs text-center" placeholder="₹180"><button id="btn-add-subitem" class="bg-slate-800 text-white px-3 rounded-lg font-black text-sm cursor-pointer">+</button></div>
                     <ul id="added-items-list" class="text-xs space-y-1 max-h-36 overflow-y-auto divide-y divide-slate-100 pt-1"></ul>
                 </div>
                 <button id="btn-submit-shop" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow">Submit Application for Review</button>
@@ -161,7 +158,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, update, get, child, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Baseline global parameters instantiation structures variables reference fields
+        // 1. TOP-LEVEL CONFIGURATIONS & HOOKS DECLARATIONS
         const firebaseConfig = {
             apiKey: "AIzaSyDGI7b17RRfpgctXIVIgPtyECtUBLEcMAU",
             authDomain: "skill-bc495.firebaseapp.com",
@@ -191,7 +188,16 @@
         let activeIntervalTimersMap = {};
         let cachedHelpsRawPayloadSnapshot = {};
 
-        // FIXED HIGHEST OPERATIONAL PRIORITY: Declared all layout functions inside top-level context definitions
+        const subTabsListMap = { 'Medicines': 'subtab-med-btn', 'Custom Help': 'subtab-work-btn', 'Parcel Express': 'subtab-parcel-btn' };
+
+        // 2. ROOT GEOLOCATION MATHEMATICAL MODULES
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+        }
+
+        // 3. UI STATE MUTATION DOM GRAPH ENGINES
         function switchTab(t) {
             currentActiveViewTab = t;
             ['helps', 'grocery', 'orders'].forEach(v => {
@@ -242,7 +248,6 @@
                     mapParcelPickup = L.map('map-parcel-pickup-box').setView([centerLat, centerLng], 15); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapParcelPickup);
                     markerParcelPickup = L.marker([centerLat, centerLng], { draggable: true }).addTo(mapParcelPickup); document.getElementById('parcel-pickup-coords').value = `${centerLat}, ${centerLng}`;
                     
-                    // Dynamic expansion mappings triggers
                     mapParcelPickup.on('focus', () => document.getElementById('map-parcel-pickup-box').classList.add('map-fullscreen-active'));
                     mapParcelPickup.on('click', (e) => {
                         markerParcelPickup.setLatLng(e.latlng);
@@ -270,13 +275,6 @@
             const totalQty = activeCart.reduce((sum, item) => sum + item.qty, 0);
             const badge = document.getElementById('cart-floating-badge'); badge.innerText = totalQty;
             badge.className = totalQty > 0 ? "absolute -top-1 -right-1 bg-red-500 text-white font-black text-[10px] min-w-5 h-5 px-1 border-2 border-white rounded-full flex items-center justify-center scale-100 transition-all" : "scale-0 hidden";
-        }
-
-        function addItemToCartArray(title, price, originShopUid, originShopName) {
-            const numericPrice = parseInt(price.replace(/[^0-9]/g, '')) || 0;
-            const existing = activeCart.find(i => i.title === title && i.shopUid === originShopUid);
-            if (existing) { existing.qty++; } else { activeCart.push({ title, price: numericPrice, qty: 1, shopUid: originShopUid, shopName: originShopName }); }
-            updateFloatingCartBadgeStateCount();
         }
 
         function renderCartInterfaceView() {
@@ -347,7 +345,7 @@
                     </div>`;
             }
 
-            let otpVerificationDisplayBlockHtml = (isOngoingTask && obj.status !== "On Your Work") ? `<div class="mt-2 p-3 bg-slate-900 text-white rounded-xl flex items-center justify-between font-mono"><div><span class="text-[9px] text-slate-400 block font-sans">Share Code to Complete Delivery</span><span class="text-xs text-slate-300 font-sans">Verification OTP: </span><span class="text-base font-black text-amber-400 tracking-wider">${calculatedOTP}</span></div><div class="text-[20px]">🔐</div></div>` : '';
+            let otpVerificationDisplayBlockHtml = (isOngoingTask && obj.status !== "On Your Work") ? `<div class="mt-2 p-3 bg-slate-900 text-white rounded-xl flex items-center justify-between font-mono"><div><span class="text-[9px] text-slate-400 block uppercase font-sans">Share Code to Complete Delivery</span><span class="text-xs text-slate-300 font-sans">Verification OTP: </span><span class="text-base font-black text-amber-400 tracking-wider">${calculatedOTP}</span></div><div class="text-[20px]">🔐</div></div>` : '';
             let agentDetailsBlockHtml = obj.agentName ? `<div class="mt-2 p-2.5 bg-blue-50/80 border border-blue-100 rounded-xl text-slate-700 text-[11px] space-y-0.5"><p><b>Assigned Agent:</b> ${obj.agentName}</p><p><b>Contact Mobile:</b> ${obj.agentPhone || 'N/A'}</p></div>` : '';
             
             card.innerHTML = `<div class="flex justify-between items-center font-bold"><span class="text-sm text-slate-900">${obj.shopName || `${obj.serviceCategory || label} Run`}</span>${statusTextHtml}</div><p class="text-slate-600 font-medium"><b>Summary:</b> ${summaryString}</p><p class="text-[11px] text-slate-500"><b>Destination:</b> ${obj.deliveryAddress || 'Current GPS Range Pin'}</p>${stopwatchTimerHtml}${otpVerificationDisplayBlockHtml}${agentDetailsBlockHtml}<div class="pt-1 text-[10px] text-slate-400 font-mono">Timestamp: ${new Date(obj.timestamp || obj.createdAt).toLocaleTimeString()}</div>`;
@@ -372,7 +370,6 @@
             }
         }
 
-        // FIXED CRITICAL INVERSION EXCEPTION: Shifted view hydration functions up before active connection triggers
         function updateHelpsPostsCategoryFeedOutput() {
             const feed = document.getElementById('helps-feed-output'); feed.innerHTML = "";
             const matchedList = Object.values(cachedHelpsRawPayloadSnapshot).filter(p => {
@@ -401,7 +398,7 @@
                 if (ordersSnap.exists()) { Object.values(ordersSnap.val()).filter(o => o.uid === userUid).forEach(order => itemsPool.push({ ...order, _type: 'Order' })); }
                 get(ref(db, 'helps_posts')).then(helpsSnap => {
                     if (helpsSnap.exists()) { Object.values(helpsSnap.val()).filter(h => h.uid === userUid && h.status !== "Processing").forEach(helpRun => itemsPool.push({ ...helpRun, _type: 'Help' })); }
-                    if(itemsPool.length === 0) { container.innerHTML = `<p class="text-slate-400 text-center py-6 text-xs font-medium">No active logistical records deployed.</p>`; return; }
+                    if(itemsPool.length === 0) { container.innerHTML = `<p class="text-slate-400 text-center py-6 text-xs font-medium">No active request logs generated.</p>`; return; }
                     itemsPool.sort((a, b) => {
                         const scoreA = (a.status === 'On Your Work' ? 4 : a.status === 'At Your Doorstep' ? 3 : a.status === 'Approved' ? 2 : a.status === 'Processing' ? 1 : 0);
                         const scoreB = (b.status === 'On Your Work' ? 4 : b.status === 'At Your Doorstep' ? 3 : b.status === 'Approved' ? 2 : b.status === 'Processing' ? 1 : 0);
@@ -412,7 +409,7 @@
             });
         }
 
-        // DOM Tab Bindings
+        // 4. FIXED SYSTEM LISTENERS BOUND AT THE ABSOLUTE BOTTOM OF COMPILATION BLOCKS
         document.getElementById('tab-grocery-btn').onclick = () => { switchTab('grocery'); document.getElementById('helps-subtabs-header').classList.add('hidden'); };
         document.getElementById('tab-helps-btn').onclick = () => { switchTab('helps'); document.getElementById('helps-subtabs-header').classList.remove('hidden'); };
         document.getElementById('tab-orders-btn').onclick = () => { switchTab('orders'); document.getElementById('helps-subtabs-header').classList.add('hidden'); };
@@ -426,7 +423,6 @@
             };
         });
 
-        // FIXED: Fully unified click tracking block mapping for the floating action dialog
         document.getElementById('btn-floating-action').onclick = () => {
             if (userAadharStatus !== "Verified") { alert(`Verification Pending. Account status state: ${userAadharStatus}`); return; }
             document.getElementById('action-modal-overlay').classList.remove('hidden');
@@ -452,7 +448,32 @@
             }
         };
 
-        // Realtime Data Sync Initializations Hooks
+        document.getElementById('btn-close-action-modal').addEventListener('click', () => document.getElementById('action-modal-overlay').classList.add('hidden'));
+        document.getElementById('btn-close-shop-modal').addEventListener('click', () => document.getElementById('shop-details-modal').classList.add('hidden'));
+
+        document.getElementById('form-help-tab').addEventListener('click', () => {
+            document.getElementById('form-help-block').classList.remove('hidden'); document.getElementById('form-shop-block').classList.add('hidden');
+            document.getElementById('form-help-tab').className = "text-blue-600 border-b-2 border-blue-600 pb-1"; document.getElementById('form-shop-tab').className = "text-slate-400 pb-1";
+        });
+        document.getElementById('form-shop-tab').addEventListener('click', () => {
+            document.getElementById('form-shop-block').classList.remove('hidden'); document.getElementById('form-help-block').classList.add('hidden');
+            document.getElementById('form-shop-tab').className = "text-blue-600 border-b-2 border-blue-600 pb-1"; document.getElementById('form-help-tab').className = "text-slate-400 pb-1";
+            prepareShopFormLayoutUI("register");
+        });
+
+        document.getElementById('btn-checkout-cart').onclick = () => {
+            if (activeCart.length === 0) return;
+            const deliveryDestinationStr = document.getElementById('cart-delivery-address-input').value.trim();
+            const contactPhone = document.getElementById('cart-phone-input').value.trim(); const selectedCoords = document.getElementById('cart-selected-coords').value.split(',');
+            if(!deliveryDestinationStr || !contactPhone || selectedCoords.length !== 2) { alert("Fill address configurations fields explicitly."); return; }
+
+            const totalBill = document.getElementById('cart-grand-total').innerText;
+            const pushOrderRef = push(ref(db, 'orders'));
+            set(pushOrderRef, { orderId: pushOrderRef.key, uid: userUid, userName, shopUid: "Multi_Vendor", shopName: "Unified Basket Run", items: activeCart, totalBill, status: "Processing", deliveryAddress: deliveryDestinationStr, userPhone: contactPhone, lat: parseFloat(selectedCoords[0]), lng: parseFloat(selectedCoords[1]), timestamp: Date.now() })
+            .then(() => { activeCart = []; updateFloatingCartBadgeStateCount(); document.getElementById('cart-checkout-modal').classList.add('hidden'); triggerAnimatedGreenSuccessTickOverlayGate(); });
+        };
+
+        // Realtime Data Socket Listeners
         onValue(ref(db, 'helps_posts'), (snapshot) => {
             cachedHelpsRawPayloadSnapshot = snapshot.exists() ? snapshot.val() : {};
             updateHelpsPostsCategoryFeedOutput();
@@ -467,7 +488,7 @@
                 const isMyOwnStoreNode = (s.uid === userUid);
                 const card = document.createElement('div'); card.className = `rounded-3xl overflow-hidden border flex flex-col shadow-xs relative ${isMyOwnStoreNode ? 'border-indigo-400 bg-indigo-50/20 ring-4 ring-indigo-500/5' : 'bg-white border-slate-100'}`;
                 let editBtnMarkup = isMyOwnStoreNode ? `<button class="btn-trigger-edit-shop absolute top-3 right-3 z-20 bg-indigo-600 text-white font-bold text-[11px] px-3 py-1.5 rounded-xl transition shadow cursor-pointer shadow-indigo-600/10" data-uid="${s.uid}">Edit Inventory</button>` : '';
-                card.innerHTML = `${editBtnMarkup}<div class="shop-card-clickable-area cursor-pointer" data-uid="${s.uid}"><img src="${s.shopImgUrl || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600'}" class="h-36 w-full object-cover"><div class="p-4"><div class="flex items-center gap-1.5"><h4 class="font-black text-sm text-slate-900">${s.shopName}</h4>${isMyOwnStoreNode ? '<span class="text-[9px] bg-indigo-100 text-indigo-700 font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider">My Shop</span>' : ''}</div><p class="text-xs text-slate-400">${s.ownerName} (${isMyOwnStoreNode ? 'Your Location Center' : dist.toFixed(1) + ' km away'})</p></div></div>`;
+                card.innerHTML = `${editBtnMarkup}<div class="shop-card-clickable-area cursor-pointer" data-uid="${s.uid}"><img src="${s.shopImgUrl || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600'}" class="h-36 w-full object-cover"><div class="p-4"><h4 class="font-black text-sm text-slate-900">${s.shopName}</h4><p class="text-xs text-slate-400">${s.ownerName} (${dist.toFixed(1)} km away)</p></div></div>`;
                 feed.appendChild(card);
             });
             document.querySelectorAll('.shop-card-clickable-area').forEach(area => area.onclick = () => openShopDetailsModal(snapshot.val()[area.getAttribute('data-uid')]));
